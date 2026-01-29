@@ -11,6 +11,20 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Query parameter "q" is required' }, { status: 400 });
     }
 
+    // --- HACKATHON FIX: Override "Al Anbar" to point to Ramadi City (on the road) ---
+    // The default "Al Anbar" point is in the deep desert and causes routing errors.
+    // We map it to Ramadi (approx coordinates) so we get a REAL road route.
+    const lowerQ = query.toLowerCase();
+    if (lowerQ.includes("الانبار") || lowerQ.includes("al anbar") || lowerQ.includes("anbar")) {
+        const ramadiCoords = [{
+            lat: 33.4318,
+            lng: 43.2987,
+            displayName: "Al Anbar (Ramadi), Iraq"
+        }];
+        return NextResponse.json(ramadiCoords);
+    }
+    // --------------------------------------------------------------------------------
+
     // Check cache
     if (cache.has(query)) {
         return NextResponse.json(cache.get(query));
