@@ -1,65 +1,139 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
+import { SearchForm } from "@/app/components/SearchForm";
+import { RouteCards } from "@/app/components/RouteCards";
+import MapWrapper from "@/app/components/MapWrapper";
+import { AboutSection } from "@/app/components/AboutSection";
+import { Location, RouteResult } from "@/lib/types";
+import { Leaf, Map as MapIcon } from "lucide-react";
 
 export default function Home() {
+  const [startLoc, setStartLoc] = useState<Location | null>(null);
+  const [endLoc, setEndLoc] = useState<Location | null>(null);
+  const [routes, setRoutes] = useState<RouteResult[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedRouteId, setSelectedRouteId] = useState<string | null>(null);
+
+  const handleSearch = async (start: Location, end: Location) => {
+    setStartLoc(start);
+    setEndLoc(end);
+    setLoading(true);
+    setRoutes([]);
+    setSelectedRouteId(null);
+
+    try {
+      const res = await fetch('/api/routes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ start, end })
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch routes");
+
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setRoutes(data);
+        // Auto-select the first (eco) route
+        if (data.length > 0) setSelectedRouteId(data[0].id);
+      }
+    } catch (err) {
+      console.error(err);
+      // In a real app, show a toast error here
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-gradient-to-br from-zinc-50 to-zinc-100 text-zinc-900 font-sans">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white">
+              <Leaf size={20} />
+            </div>
+            <span className="text-xl font-bold tracking-tight text-zinc-900">EcoRoute <span className="text-emerald-600">AI</span></span>
+          </div>
+          <nav className="hidden md:flex gap-6 text-sm font-medium text-zinc-500">
+            <a href="#demo" className="hover:text-emerald-600 transition-colors">Demo</a>
+            <a href="#about" className="hover:text-emerald-600 transition-colors">About</a>
+            <a href="#" className="hover:text-emerald-600 transition-colors">GitHub</a>
+          </nav>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        {/* Hero / Search Section */}
+        <section id="demo" className="mb-8 flex flex-col items-center justify-center min-h-[40vh] relative rounded-3xl overflow-hidden bg-zinc-900 text-white shadow-2xl">
+          {/* Background Image Placeholder - using CSS gradient for MVP speed */}
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-zinc-900/90"></div>
+
+          <div className="relative z-10 w-full max-w-2xl px-4 py-16 text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+              Drive Green, <span className="text-emerald-400">Save Earth.</span>
+            </h1>
+            <p className="text-lg text-zinc-200 mb-8 max-w-xl mx-auto">
+              AI-powered navigation that finds the most fuel-efficient routes to reduce your carbon footprint instantly.
+            </p>
+            <SearchForm onSearch={handleSearch} isLoading={loading} />
+          </div>
+        </section>
+
+        {/* Results Section */}
+        {(startLoc && endLoc) && (
+          <div className="grid lg:grid-cols-3 gap-6 mb-16 animate-in slide-in-from-bottom-4 duration-700">
+            {/* Left Panel: Route List */}
+            <div className="lg:col-span-1 space-y-4">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-lg font-semibold flex items-center gap-2">
+                  <MapIcon className="w-5 h-5 text-emerald-600" /> Found Routes
+                </h2>
+                <span className="text-xs font-medium text-zinc-500 bg-zinc-100 px-2 py-1 rounded-full">{routes.length} options</span>
+              </div>
+              {loading ? (
+                <div className="space-y-4">
+                  {[1, 2, 3].map(i => <div key={i} className="h-32 bg-zinc-200 animate-pulse rounded-xl" />)}
+                </div>
+              ) : (
+                <RouteCards routes={routes} selectedRouteId={selectedRouteId} onSelect={setSelectedRouteId} />
+              )}
+            </div>
+
+            {/* Right Panel: Map */}
+            <div className="lg:col-span-2 h-[500px] lg:h-auto bg-zinc-100 rounded-2xl overflow-hidden border border-zinc-200 shadow-inner relative">
+              <MapWrapper
+                start={startLoc}
+                end={endLoc}
+                routes={routes}
+                selectedRouteId={selectedRouteId}
+              />
+              {/* Floating Info Pill */}
+              {selectedRouteId && routes.find(r => r.id === selectedRouteId)?.isEcofriendly && (
+                <div className="absolute top-4 right-4 z-[400] bg-emerald-600 text-white px-4 py-2 rounded-full shadow-lg text-sm font-bold flex items-center animate-bounce-slow">
+                  <Leaf className="w-4 h-4 mr-2" />
+                  Recommended Green Route
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div id="about">
+          <AboutSection />
         </div>
-      </main>
-    </div>
+
+      </div>
+
+      <footer className="border-t border-zinc-200 bg-white py-8">
+        <div className="max-w-7xl mx-auto px-4 text-center text-zinc-500 text-sm">
+          <p>&copy; 2026 EcoRoute AI. Built for Hack-Earth.</p>
+        </div>
+      </footer>
+    </main>
   );
 }

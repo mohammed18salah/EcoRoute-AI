@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EcoRoute AI 🌿🚗
+> **Sustainable Solutions Powered by AI (Hack-Earth 2026)**
 
-## Getting Started
+EcoRoute AI is a smart navigation assistant that calculates and visualizes the carbon footprint of different route options. It empowers drivers to make eco-friendly decisions by prioritizing low-emission routes over slightly faster but more polluting ones.
 
-First, run the development server:
+![EcoRoute AI Banner](https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌍 The Problem
+Transportation accounts for nearly 24% of global CO₂ emissions. Traditional GPS apps (Google Maps, Waze) optimize almost exclusively for *time*, often routing drivers through high-speed, high-consumption highways or stop-and-go congestion that drastically reduces fuel efficiency.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 💡 The Solution
+EcoRoute AI introduces a "Green Routing" algorithm that considers:
+1. **Distance vs. Speed**: analyzing the trade-off between highway speeds (higher drag) and shorter, moderate-speed routes.
+2. **Congestion penalty**: comparing estimated durations against theoretical free-flow times to detect idling/traffic.
+3. **CO₂ Estimator**: providing a transparent kg CO₂ metric for every trip.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
+- **Framework**: Next.js 14 (App Router) + TypeScript
+- **Styling**: Tailwind CSS + shadcn/ui (custom implementation)
+- **Maps**: Leaflet (OpenStreetMap)
+- **Routing Engine**: OpenRouteService API (for alternatives & geometry)
+- **Geocoding**: Nominatim (OSM) server-side handler
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 How to Run Locally
 
-## Learn More
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/yourusername/ecoroute-ai.git
+   cd ecoroute-ai
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Set up Environment Variables**
+   - Create a `.env.local` file in the root.
+   - Add your [OpenRouteService API Key](https://openrouteservice.org/):
+   ```env
+   ORS_API_KEY=your_key_here
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-## Deploy on Vercel
+## 🎥 Demo Script (For Video)
+1. **Intro**: "Hi, this is [Name] for Hack-Earth. We built EcoRoute AI to make sustainable driving the default choice."
+2. **Problem**: "We all use GPS, but it always picks the *fastest* route, even if it burns 20% more fuel."
+3. **Demo**: 
+   - Click "Demo" button.
+   - Show the 3 cards.
+   - Point to the green badge: "See? This route takes only 2 mins longer but saves 1.2kg of CO₂."
+   - Click the map lines to show interactive selection.
+4. **Impact**: "If 10% of drivers chose the green route daily, we could reduce emissions by tons annually."
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+MIT
