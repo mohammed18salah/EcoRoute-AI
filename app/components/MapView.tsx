@@ -136,7 +136,12 @@ export default function MapView({ start, end, routes, selectedRouteId }: MapView
                 const weight = isSelected ? 6 : 4;
 
                 // Decode geometry
-                const positions = decodePolyline(route.geometry);
+                let positions = decodePolyline(route.geometry);
+
+                // Fallback: If decoding fails or is empty, draw straight line start->end
+                if (positions.length === 0 && start && end) {
+                    positions = [[start.lat, start.lng], [end.lat, end.lng]] as any;
+                }
 
                 return (
                     <Polyline
@@ -146,7 +151,8 @@ export default function MapView({ start, end, routes, selectedRouteId }: MapView
                             color: color,
                             weight: weight,
                             opacity: opacity,
-                            lineCap: 'round'
+                            lineCap: 'round',
+                            dashArray: isEco ? undefined : '5, 10' // Solid for Eco, Dashed for others
                         }}
                     />
                 );
