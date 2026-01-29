@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { calculateEmissions, calculateSavings } from '@/lib/emissions';
-import { RouteResult } from '@/lib/types';
+import { calculateEmissions, calculateSavings } from '../../../lib/emissions';
+import { RouteResult } from '../../../lib/types';
 
 const ORS_API_KEY = process.env.ORS_API_KEY;
 
 export async function POST(request: Request) {
     try {
-        const { start, end } = await request.json();
+        const { start, end, vehicleType } = await request.json();
 
         if (!start || !end) {
             return NextResponse.json({ error: 'Start and End locations are required' }, { status: 400 });
@@ -127,7 +127,7 @@ export async function POST(request: Request) {
         let routeResults: RouteResult[] = finalRoutesRaw.map((r: any, index: number) => {
             const distanceKm = r.summary.distance;
             const durationMin = r.summary.duration / 60;
-            const emissions = calculateEmissions(distanceKm, durationMin);
+            const emissions = calculateEmissions(distanceKm, durationMin, vehicleType as any);
 
             return {
                 id: `route-${index}-${Math.random()}`,

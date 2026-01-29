@@ -16,7 +16,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [selectedRouteId, setSelectedRouteId] = useState<string | null>(null);
 
-  const handleSearch = async (start: Location, end: Location) => {
+  const handleSearch = async (start: Location, end: Location, vehicleType: string) => {
     setStartLoc(start);
     setEndLoc(end);
     setLoading(true);
@@ -27,7 +27,7 @@ export default function Home() {
       const res = await fetch('/api/routes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ start, end })
+        body: JSON.stringify({ start, end, vehicleType })
       });
 
       if (!res.ok) throw new Error("Failed to fetch routes");
@@ -100,7 +100,13 @@ export default function Home() {
                   {[1, 2, 3].map(i => <div key={i} className="h-32 bg-zinc-200 animate-pulse rounded-xl" />)}
                 </div>
               ) : (
-                <RouteCards routes={routes} selectedRouteId={selectedRouteId} onSelect={setSelectedRouteId} />
+                <RouteCards
+                  routes={routes}
+                  selectedRouteId={selectedRouteId}
+                  onSelect={setSelectedRouteId}
+                  start={startLoc}
+                  end={endLoc}
+                />
               )}
             </div>
 

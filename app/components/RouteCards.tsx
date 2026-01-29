@@ -4,15 +4,26 @@ import { Card, CardContent } from "@/app/components/ui/card";
 import { Badge } from "@/app/components/ui/badge";
 import { RouteResult } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Leaf, Clock, Car, Trophy } from "lucide-react";
+import { Leaf, Clock, Car, Trophy, Navigation } from "lucide-react";
+import { Location } from "@/lib/types";
+import { Button } from "./ui/button";
 
 interface RouteCardsProps {
     routes: RouteResult[];
     selectedRouteId: string | null;
     onSelect: (id: string) => void;
+    start?: Location | null;
+    end?: Location | null;
 }
 
-export function RouteCards({ routes, selectedRouteId, onSelect }: RouteCardsProps) {
+export function RouteCards({ routes, selectedRouteId, onSelect, start, end }: RouteCardsProps) {
+    const handleNavigate = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (start && end) {
+            const url = `https://www.google.com/maps/dir/?api=1&origin=${start.lat},${start.lng}&destination=${end.lat},${end.lng}&travelmode=driving`;
+            window.open(url, '_blank');
+        }
+    };
     return (
         <div className="space-y-4">
             {routes.map((route) => (
@@ -61,6 +72,15 @@ export function RouteCards({ routes, selectedRouteId, onSelect }: RouteCardsProp
                             <p className="text-xs text-center text-zinc-500 font-medium italic">
                                 "{route.description}"
                             </p>
+                        )}
+
+                        {selectedRouteId === route.id && (
+                            <Button
+                                onClick={handleNavigate}
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-2 h-9 text-xs font-bold shadow-md animate-in fade-in zoom-in duration-300"
+                            >
+                                <Navigation className="w-3 h-3 mr-2" /> Start Navigation
+                            </Button>
                         )}
                     </CardContent>
                 </Card>

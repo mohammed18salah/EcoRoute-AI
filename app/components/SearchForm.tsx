@@ -3,24 +3,25 @@
 import { useState } from 'react';
 import { Input } from '@/app/components/ui/input';
 import { Button } from '@/app/components/ui/button';
-import { Search, MapPin, Loader2 } from 'lucide-react';
+import { Search, MapPin, Loader2, Car } from 'lucide-react';
 import { Location } from '@/lib/types';
+import { VehicleType } from '@/lib/emissions';
 
 interface SearchFormProps {
-    onSearch: (start: Location, end: Location) => void;
+    onSearch: (start: Location, end: Location, vehicleType: VehicleType) => void;
     isLoading: boolean;
 }
 
 export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
     const [startQuery, setStartQuery] = useState('');
     const [endQuery, setEndQuery] = useState('');
+    const [vehicleType, setVehicleType] = useState<VehicleType>('gas');
     const [isGeocoding, setIsGeocoding] = useState(false);
     const [error, setError] = useState('');
 
-    // Example placeholders related to sustainability/nature
     const handleDemo = () => {
-        setStartQuery("Berlin, Germany");
-        setEndQuery("Potsdam, Germany");
+        setStartQuery("Baghdad, Iraq");
+        setEndQuery("Ramadi, Iraq");
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -33,7 +34,6 @@ export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
         setIsGeocoding(true);
 
         try {
-            // Geocode both
             const [startRes, endRes] = await Promise.all([
                 fetch(`/api/geocode?q=${encodeURIComponent(startQuery)}`),
                 fetch(`/api/geocode?q=${encodeURIComponent(endQuery)}`)
@@ -45,7 +45,7 @@ export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
             if (startData.error || !startData[0]) throw new Error(`Could not find location: ${startQuery}`);
             if (endData.error || !endData[0]) throw new Error(`Could not find location: ${endQuery}`);
 
-            onSearch(startData[0], endData[0]);
+            onSearch(startData[0], endData[0], vehicleType);
         } catch (err: any) {
             setError(err.message || "Geocoding failed. Try a different address.");
         } finally {
@@ -59,20 +59,36 @@ export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
                 <div className="relative">
                     <MapPin className="absolute left-3 top-2.5 h-5 w-5 text-emerald-600" />
                     <Input
-                        placeholder="Start Location (e.g. New York)"
+                        placeholder="Start Location (e.g. Baghdad)"
                         value={startQuery}
                         onChange={(e) => setStartQuery(e.target.value)}
-                        className="pl-10 bg-white/60 border-zinc-200 focus:bg-white transition-all"
+                        className="pl-10 bg-white/60 border-zinc-200 focus:bg-white transition-all text-zinc-900"
                     />
                 </div>
                 <div className="relative">
                     <MapPin className="absolute left-3 top-2.5 h-5 w-5 text-red-500" />
                     <Input
-                        placeholder="Destination (e.g. Boston)"
+                        placeholder="Destination (e.g. Ramadi)"
                         value={endQuery}
                         onChange={(e) => setEndQuery(e.target.value)}
-                        className="pl-10 bg-white/60 border-zinc-200 focus:bg-white transition-all"
+                        className="pl-10 bg-white/60 border-zinc-200 focus:bg-white transition-all text-zinc-900"
                     />
+                </div>
+
+                {/* Vehicle Selector */}
+                <div className="relative">
+                    <Car className="absolute left-3 top-2.5 h-5 w-5 text-zinc-500" />
+                    <select
+                        value={vehicleType}
+                        onChange={(e) => setVehicleType(e.target.value as VehicleType)}
+                        className="flex h-10 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 pl-10 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 disabled:cursor-not-allowed disabled:opacity-50 text-zinc-900 appearance-none"
+                    >
+                        <option value="gas">Gasoline Car (Standard)</option>
+                        <option value="diesel">Diesel Car</option>
+                        <option value="suv">SUV / Truck</option>
+                        <option value="hybrid">Hybrid (Eco)</option>
+                        <option value="ev">Electric Vehicle (EV)</option>
+                    </select>
                 </div>
             </div>
 
@@ -94,6 +110,10 @@ export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
                     Demo
                 </Button>
             </div>
+
+            <p className="text-xs text-center text-zinc-400 mt-2">
+                * Estimates based on EEA 2024 emission factors.
+            </p>
         </form>
     );
 }
