@@ -43,7 +43,11 @@ export function AboutSection() {
                     </ol>
 
                     <div className="mt-6 pt-6 border-t border-emerald-200/50 flex gap-4">
-                        <Button variant="outline" className="w-full text-emerald-700 border-emerald-200 hover:bg-emerald-100 bg-transparent">
+                        <Button
+                            variant="outline"
+                            className="w-full text-emerald-700 border-emerald-200 hover:bg-emerald-100 bg-transparent"
+                            onClick={() => window.open('https://github.com/mohammed18salah/EcoRoute-AI', '_blank')}
+                        >
                             <Github className="w-4 h-4 mr-2" /> View Code
                         </Button>
                     </div>

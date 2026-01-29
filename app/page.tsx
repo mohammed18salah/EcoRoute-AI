@@ -60,7 +60,7 @@ export default function Home() {
           <nav className="hidden md:flex gap-6 text-sm font-medium text-zinc-500">
             <a href="#demo" className="hover:text-emerald-600 transition-colors">Demo</a>
             <a href="#about" className="hover:text-emerald-600 transition-colors">About</a>
-            <a href="#" className="hover:text-emerald-600 transition-colors">GitHub</a>
+            <a href="https://github.com/mohammed18salah/EcoRoute-AI" target="_blank" className="hover:text-emerald-600 transition-colors">GitHub</a>
           </nav>
         </div>
       </header>
@@ -137,7 +137,7 @@ export default function Home() {
 
       <footer className="border-t border-zinc-200 bg-white py-8">
         <div className="max-w-7xl mx-auto px-4 text-center text-zinc-500 text-sm">
-          <p>&copy; 2026 EcoRoute AI. Built for Hack-Earth.</p>
+          <p>&copy; 2026 EcoRoute AI. Created by <strong>Mohammed Salahuldeen</strong> for <strong>Hack-Earth</strong>.</p>
         </div>
       </footer>
     </main>

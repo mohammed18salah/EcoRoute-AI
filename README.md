@@ -1,32 +1,58 @@
-# EcoRoute AI 🌿🚗
-> **Sustainable Solutions Powered by AI (Hack-Earth 2026)**
-
-EcoRoute AI is a smart navigation assistant that calculates and visualizes the carbon footprint of different route options. It empowers drivers to make eco-friendly decisions by prioritizing low-emission routes over slightly faster but more polluting ones.
+# 🌿 EcoRoute AI
+> **Smart Navigation for a Greener Future.**  
+> *Built for Hack-Earth 2026*
 
 ![EcoRoute AI Banner](https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop)
 
-## 🌍 The Problem
-Transportation accounts for nearly 24% of global CO₂ emissions. Traditional GPS apps (Google Maps, Waze) optimize almost exclusively for *time*, often routing drivers through high-speed, high-consumption highways or stop-and-go congestion that drastically reduces fuel efficiency.
+EcoRoute AI is an intelligent navigation assistant that empowers drivers to reduce their carbon footprint. By analyzing route efficiency, vehicle type, and traffic patterns, it helps you choose the most compliant path—saving fuel and the planet.
 
-## 💡 The Solution
-EcoRoute AI introduces a "Green Routing" algorithm that considers:
-1. **Distance vs. Speed**: analyzing the trade-off between highway speeds (higher drag) and shorter, moderate-speed routes.
-2. **Congestion penalty**: comparing estimated durations against theoretical free-flow times to detect idling/traffic.
-3. **CO₂ Estimator**: providing a transparent kg CO₂ metric for every trip.
+---
+
+## 🚀 Key Features
+
+### 🌱 **Smart Eco-Routing**
+Compare routes not just by time, but by **environmental impact**. The "Eco Pick" highlights the path with the lowest CO₂ emissions.
+
+### 🚗 **Vehicle Specific Analysis** (NEW)
+Customize calculations based on your vehicle:
+- **EV (Electric)**: Optimized for range and regenerative efficiency.
+- **Hybrid**: Balanced mixed-cycle routing.
+- **Gas/Diesel/SUV**: Traditional emission factors based on EEA standards.
+
+### 🗺️ **3-Path Diversity System**
+Our advanced algorithm generates three distinct geographic alternatives for every trip, ensuring you have real choices:
+1.  **Eco-Friendly**: The greenest path.
+2.  **Balanced**: A mix of speed and efficiency.
+3.  **Fastest**: Pure speed, regardless of emissions.
+
+### 📍 **Seamless Navigation**
+Found your perfect route? Click **"Start Navigation"** to instantly open the path in Google Maps and hit the road.
+
+---
 
 ## 🛠️ Tech Stack
-- **Framework**: Next.js 14 (App Router) + TypeScript
-- **Styling**: Tailwind CSS + shadcn/ui (custom implementation)
-- **Maps**: Leaflet (OpenStreetMap)
-- **Routing Engine**: OpenRouteService API (for alternatives & geometry)
-- **Geocoding**: Nominatim (OSM) server-side handler
 
-## 🚀 How to Run Locally
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4 + Custom ID Components
+- **Mapping**: Leaflet.js
+- **Routing Engine**: OpenRouteService API
+- **Logic**: Custom emissions algorithm based on European Environment Agency (EEA) factors.
 
-1. **Clone the repo**
+---
+
+## 📦 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- [OpenRouteService API Key](https://openrouteservice.org/) (Free)
+
+### Installation
+
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/ecoroute-ai.git
-   cd ecoroute-ai
+   git clone https://github.com/mohammed18salah/EcoRoute-AI.git
+   cd EcoRoute-AI
    ```
 
 2. **Install dependencies**
@@ -34,28 +60,35 @@ EcoRoute AI introduces a "Green Routing" algorithm that considers:
    npm install
    ```
 
-3. **Set up Environment Variables**
-   - Create a `.env.local` file in the root.
-   - Add your [OpenRouteService API Key](https://openrouteservice.org/):
+3. **Configure Environment**
+   Create a `.env.local` file:
    ```env
-   ORS_API_KEY=your_key_here
+   # Get your key from OpenRouteService
+   ORS_API_KEY=your_api_key_here
    ```
 
-4. **Run the development server**
+4. **Run Locally**
    ```bash
    npm run dev
    ```
-   Open [http://localhost:3000](http://localhost:3000) with your browser.
+   Visit `http://localhost:3000`
 
-## 🎥 Demo Script (For Video)
-1. **Intro**: "Hi, this is [Name] for Hack-Earth. We built EcoRoute AI to make sustainable driving the default choice."
-2. **Problem**: "We all use GPS, but it always picks the *fastest* route, even if it burns 20% more fuel."
-3. **Demo**: 
-   - Click "Demo" button.
-   - Show the 3 cards.
-   - Point to the green badge: "See? This route takes only 2 mins longer but saves 1.2kg of CO₂."
-   - Click the map lines to show interactive selection.
-4. **Impact**: "If 10% of drivers chose the green route daily, we could reduce emissions by tons annually."
+---
+
+## 🎥 Demo Highlights
+
+1. **Select Vehicle**: Choose between **SUV**, **Sedan**, or **EV** to see how emissions change drastically.
+2. **Search**: Enter cities (e.g., *Baghdad* to *Ramadi*) or use the **Random Global Demo** button.
+3. **Compare**: View the "Savings Badge" showing % CO₂ reduction.
+4. **Navigate**: One-click integration with Google Maps.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please fork the repo and submit a PR.
 
 ## 📄 License
-MIT
+
+MIT License © 2026 Mohammed Salahuldeen
+

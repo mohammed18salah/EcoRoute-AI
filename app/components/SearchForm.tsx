@@ -5,7 +5,7 @@ import { Input } from '@/app/components/ui/input';
 import { Button } from '@/app/components/ui/button';
 import { Search, MapPin, Loader2, Car } from 'lucide-react';
 import { Location } from '@/lib/types';
-import { VehicleType } from '@/lib/emissions';
+import { VehicleType } from '../../lib/emissions';
 
 interface SearchFormProps {
     onSearch: (start: Location, end: Location, vehicleType: VehicleType) => void;
@@ -20,8 +20,21 @@ export function SearchForm({ onSearch, isLoading }: SearchFormProps) {
     const [error, setError] = useState('');
 
     const handleDemo = () => {
-        setStartQuery("Baghdad, Iraq");
-        setEndQuery("Ramadi, Iraq");
+        const demoRoutes = [
+            { start: "Berlin, Germany", end: "Potsdam, Germany" },
+            { start: "New York, NY", end: "Philadelphia, PA" },
+            { start: "London, UK", end: "Oxford, UK" },
+            { start: "San Francisco, CA", end: "San Jose, CA" },
+            { start: "Paris, France", end: "Versailles, France" },
+            { start: "Amsterdam, Netherlands", end: "Utrecht, Netherlands" },
+            { start: "Los Angeles, CA", end: "Santa Monica, CA" }
+        ];
+
+        // Pick random
+        const randomRoute = demoRoutes[Math.floor(Math.random() * demoRoutes.length)];
+
+        setStartQuery(randomRoute.start);
+        setEndQuery(randomRoute.end);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
