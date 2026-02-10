@@ -1,6 +1,5 @@
 # 🌿 EcoRoute AI
-> **Smart Navigation for a Greener Future.**  
-> *Built for Hack-Earth 2026*
+> **Smart Navigation for a Greener Future.**
 
 ![EcoRoute AI Banner](https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop)
 

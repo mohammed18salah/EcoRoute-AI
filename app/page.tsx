@@ -137,7 +137,7 @@ export default function Home() {
 
       <footer className="border-t border-zinc-200 bg-white py-8">
         <div className="max-w-7xl mx-auto px-4 text-center text-zinc-500 text-sm">
-          <p>&copy; 2026 EcoRoute AI. Created by <strong>Mohammed Salahuldeen</strong> for <strong>Hack-Earth</strong>.</p>
+          <p>&copy; 2026 EcoRoute AI. Created by <strong>Mohammed Salahuldeen</strong>.</p>
         </div>
       </footer>
     </main>
